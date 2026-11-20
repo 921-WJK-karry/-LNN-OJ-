@@ -1,0 +1,9 @@
+# 依赖
+node_modules/
+
+# 数据库凭据
+backend/.env
+
+# 其他
+.screenshots/
+.trae-html-share-packages/

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- 姓名：李南诺 | 学号：24002120324
+     时间：2026-11-20 | 大模型：GLM-5.3-Flash
+     页面说明：项目首页（canvas 粒子背景动画 + 项目信息卡 + 页面导航） -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LNN OJ - 程序设计比赛题库</title>
+  <link rel="stylesheet" href="css/LNN_index.css">
+</head>
+<body class="LNN_body">
+
+  <!-- canvas 背景动画 -->
+  <canvas id="LNN_bg_canvas" class="LNN_bg_canvas"></canvas>
+
+  <!-- 主内容 -->
+  <main class="LNN_main">
+    <!-- 项目信息卡 -->
+    <section class="LNN_info_card">
+      <h1 class="LNN_project_name">程序设计比赛题库系统</h1>
+      <p class="LNN_project_en">LNN OJ · Online Judge</p>
+      <ul class="LNN_info_list">
+        <li class="LNN_info_item"><span class="LNN_info_label">姓名</span><span class="LNN_info_value">李南诺</span></li>
+        <li class="LNN_info_item"><span class="LNN_info_label">学号</span><span class="LNN_info_value">24002120324</span></li>
+        <li class="LNN_info_item"><span class="LNN_info_label">项目类别</span><span class="LNN_info_value">模仿（在线评测系统 OJ）</span></li>
+      </ul>
+      <span id="LNN_server_status" class="LNN_status LNN_status_unknown">服务状态检测中…</span>
+    </section>
+
+    <!-- 页面导航（主体） -->
+    <section class="LNN_nav_panel">
+      <h2 class="LNN_nav_title">页面导航</h2>
+      <div class="LNN_nav_grid">
+        <a href="index.html" class="LNN_nav_card">
+          <span class="LNN_nav_icon">⌂</span>
+          <span class="LNN_nav_name">首页</span>
+          <span class="LNN_nav_desc">项目介绍与总入口</span>
+        </a>
+        <a href="problems.html" class="LNN_nav_card">
+          <span class="LNN_nav_icon">{ }</span>
+          <span class="LNN_nav_name">题库练习</span>
+          <span class="LNN_nav_desc">按难度 / 标签 / 关键词筛选题目</span>
+        </a>
+        <!-- 后续新建页面在此追加入口链接（文件名含 detail 的页面除外） -->
+      </div>
+    </section>
+
+    <p class="LNN_copyright">李南诺 | 学号 24002120324 | 程序设计比赛题库系统</p>
+  </main>
+
+  <script src="js/LNN_index.js"></script>
+</body>
+</html>
