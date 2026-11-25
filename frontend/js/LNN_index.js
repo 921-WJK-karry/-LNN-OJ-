@@ -69,7 +69,7 @@ function LNN_startCanvasAnimation() {
         const LNN_dist = Math.sqrt(LNN_dx * LNN_dx + LNN_dy * LNN_dy);
         if (LNN_dist < LNN_link_distance) {
           LNN_ctx.strokeStyle =
-            'rgba(91, 124, 250,' + (0.30 * (1 - LNN_dist / LNN_link_distance)).toFixed(3) + ')';
+            'rgba(34, 184, 162,' + (0.30 * (1 - LNN_dist / LNN_link_distance)).toFixed(3) + ')';
           LNN_ctx.lineWidth = 1;
           LNN_ctx.beginPath();
           LNN_ctx.moveTo(LNN_particles[LNN_i].LNN_x, LNN_particles[LNN_i].LNN_y);
@@ -81,7 +81,8 @@ function LNN_startCanvasAnimation() {
 
     // 粒子
     LNN_particles.forEach(LNN_p => {
-      LNN_ctx.fillStyle = 'rgba(91, 124, 250, 0.55)';
+      // 薄荷/樱花双色粒子
+      LNN_ctx.fillStyle = LNN_p.LNN_r > 2.2 ? 'rgba(255, 143, 171, 0.55)' : 'rgba(34, 184, 162, 0.55)';
       LNN_ctx.beginPath();
       LNN_ctx.arc(LNN_p.LNN_x, LNN_p.LNN_y, LNN_p.LNN_r, 0, Math.PI * 2);
       LNN_ctx.fill();

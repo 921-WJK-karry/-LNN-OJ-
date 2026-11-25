@@ -15,7 +15,7 @@
 .LNN_select,
 .LNN_input {
   background-color: var(--LNN-card-solid);
-  border: 1px solid rgba(91, 124, 250, 0.22);
+  border: 1px solid rgba(34, 184, 162, 0.22);
   border-radius: var(--LNN-radius-sm);
   color: var(--LNN-text);
   padding: 10px 14px;
@@ -27,7 +27,7 @@
 .LNN_select:focus,
 .LNN_input:focus {
   border-color: var(--LNN-accent);
-  box-shadow: 0 0 0 3px rgba(91, 124, 250, 0.14);
+  box-shadow: 0 0 0 3px rgba(34, 184, 162, 0.14);
 }
 
 .LNN_input {
@@ -61,12 +61,12 @@
   border: 1px solid var(--LNN-border);
   border-radius: 12px;
   padding: 16px 20px;
-  box-shadow: 0 4px 16px rgba(60, 80, 160, 0.06);
+  box-shadow: 0 4px 16px rgba(34, 140, 120, 0.06);
   transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
 }
 
 .LNN_problem_item:hover {
-  border-color: rgba(91, 124, 250, 0.45);
+  border-color: rgba(34, 184, 162, 0.45);
   transform: translateX(3px);
   box-shadow: var(--LNN-shadow-hover);
 }
@@ -79,8 +79,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: linear-gradient(135deg, rgba(91, 124, 250, 0.12), rgba(47, 184, 246, 0.12));
-  border: 1px solid rgba(91, 124, 250, 0.18);
+  background: linear-gradient(135deg, rgba(34, 184, 162, 0.12), rgba(88, 166, 255, 0.12));
+  border: 1px solid rgba(34, 184, 162, 0.18);
   font-weight: bold;
   color: var(--LNN-accent);
 }
