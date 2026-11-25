@@ -20,7 +20,7 @@ function LNN_startCanvasAnimation() {
   const LNN_ctx = LNN_canvas.getContext('2d');
 
   // 粒子数量与连线距离阈值
-  const LNN_particle_count = 70;
+  const LNN_particle_count = 60;
   const LNN_link_distance = 130;
 
   let LNN_particles = [];
@@ -38,8 +38,8 @@ function LNN_startCanvasAnimation() {
       LNN_particles.push({
         LNN_x: Math.random() * LNN_canvas.width,
         LNN_y: Math.random() * LNN_canvas.height,
-        LNN_vx: (Math.random() - 0.5) * 0.6,
-        LNN_vy: (Math.random() - 0.5) * 0.6,
+        LNN_vx: (Math.random() - 0.5) * 0.45,
+        LNN_vy: (Math.random() - 0.5) * 0.45,
         LNN_r: Math.random() * 1.8 + 0.8
       });
     }
@@ -69,7 +69,7 @@ function LNN_startCanvasAnimation() {
         const LNN_dist = Math.sqrt(LNN_dx * LNN_dx + LNN_dy * LNN_dy);
         if (LNN_dist < LNN_link_distance) {
           LNN_ctx.strokeStyle =
-            'rgba(108, 140, 255,' + (0.35 * (1 - LNN_dist / LNN_link_distance)).toFixed(3) + ')';
+            'rgba(91, 124, 250,' + (0.30 * (1 - LNN_dist / LNN_link_distance)).toFixed(3) + ')';
           LNN_ctx.lineWidth = 1;
           LNN_ctx.beginPath();
           LNN_ctx.moveTo(LNN_particles[LNN_i].LNN_x, LNN_particles[LNN_i].LNN_y);
@@ -81,7 +81,7 @@ function LNN_startCanvasAnimation() {
 
     // 粒子
     LNN_particles.forEach(LNN_p => {
-      LNN_ctx.fillStyle = 'rgba(139, 160, 255, 0.85)';
+      LNN_ctx.fillStyle = 'rgba(91, 124, 250, 0.55)';
       LNN_ctx.beginPath();
       LNN_ctx.arc(LNN_p.LNN_x, LNN_p.LNN_y, LNN_p.LNN_r, 0, Math.PI * 2);
       LNN_ctx.fill();

@@ -1,93 +1,6 @@
 /* 姓名：李南诺 | 学号：24002120324
    时间：2026-11-20 | 大模型：GLM-5.3-Flash
-   说明：题库练习页样式（原生 CSS，类名均以 LNN_ 开头） */
-
-/* 基础重置 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* 全局 */
-.LNN_body {
-  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-  background-color: #0f1220;
-  color: #e8eaf2;
-  line-height: 1.6;
-}
-
-.LNN_container {
-  width: 90%;
-  max-width: 1080px;
-  margin: 0 auto;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* 顶部导航 */
-.LNN_header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background-color: rgba(15, 18, 32, 0.92);
-  border-bottom: 1px solid #262b45;
-}
-
-.LNN_header_inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-}
-
-.LNN_logo {
-  font-size: 22px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.LNN_logo_accent {
-  color: #6c8cff;
-  margin-left: 2px;
-}
-
-.LNN_nav {
-  display: flex;
-  gap: 24px;
-}
-
-.LNN_nav_link {
-  font-size: 15px;
-  color: #aeb3c9;
-  transition: color 0.2s;
-}
-
-.LNN_nav_link:hover {
-  color: #ffffff;
-}
-
-.LNN_nav_link_active {
-  color: #6c8cff;
-}
-
-/* 页面标题 */
-.LNN_page_head {
-  padding: 40px 0 20px;
-}
-
-.LNN_page_title {
-  font-size: 30px;
-  margin-bottom: 6px;
-}
-
-.LNN_page_desc {
-  font-size: 14px;
-  color: #aeb3c9;
-}
+   说明：题库练习页样式（页面专属部分，基础样式见 LNN_common.css） */
 
 /* 筛选栏 */
 .LNN_filter_bar {
@@ -101,19 +14,20 @@ a {
 
 .LNN_select,
 .LNN_input {
-  background-color: #171b30;
-  border: 1px solid #262b45;
-  border-radius: 8px;
-  color: #e8eaf2;
-  padding: 9px 12px;
+  background-color: var(--LNN-card-solid);
+  border: 1px solid rgba(91, 124, 250, 0.22);
+  border-radius: var(--LNN-radius-sm);
+  color: var(--LNN-text);
+  padding: 10px 14px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .LNN_select:focus,
 .LNN_input:focus {
-  border-color: #6c8cff;
+  border-color: var(--LNN-accent);
+  box-shadow: 0 0 0 3px rgba(91, 124, 250, 0.14);
 }
 
 .LNN_input {
@@ -127,8 +41,8 @@ a {
 
 .LNN_list_count {
   font-size: 13px;
-  color: #7b8099;
-  margin-bottom: 12px;
+  color: var(--LNN-text-muted);
+  margin-bottom: 14px;
 }
 
 .LNN_problem_list {
@@ -141,16 +55,20 @@ a {
   display: flex;
   align-items: center;
   gap: 16px;
-  background-color: #171b30;
-  border: 1px solid #262b45;
-  border-radius: 10px;
+  background-color: var(--LNN-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--LNN-border);
+  border-radius: 12px;
   padding: 16px 20px;
-  transition: border-color 0.2s, transform 0.2s;
+  box-shadow: 0 4px 16px rgba(60, 80, 160, 0.06);
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
 }
 
 .LNN_problem_item:hover {
-  border-color: #6c8cff;
-  transform: translateX(4px);
+  border-color: rgba(91, 124, 250, 0.45);
+  transform: translateX(3px);
+  box-shadow: var(--LNN-shadow-hover);
 }
 
 .LNN_problem_no {
@@ -160,11 +78,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  background-color: #12152a;
-  border: 1px solid #262b45;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(91, 124, 250, 0.12), rgba(47, 184, 246, 0.12));
+  border: 1px solid rgba(91, 124, 250, 0.18);
   font-weight: bold;
-  color: #6c8cff;
+  color: var(--LNN-accent);
 }
 
 .LNN_problem_info {
@@ -178,52 +96,44 @@ a {
   margin-bottom: 4px;
 }
 
+.LNN_problem_title a {
+  transition: color 0.2s;
+}
+
+.LNN_problem_title a:hover {
+  color: var(--LNN-accent);
+}
+
 .LNN_problem_meta {
   font-size: 13px;
-  color: #aeb3c9;
+  color: var(--LNN-text-muted);
 }
 
 /* 难度徽标 */
 .LNN_difficulty {
   flex-shrink: 0;
   font-size: 12px;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 999px;
+  border: 1px solid transparent;
 }
 
 .LNN_difficulty_easy {
-  color: #4ade80;
-  background-color: rgba(74, 222, 128, 0.1);
+  color: #15803d;
+  background-color: rgba(22, 163, 74, 0.10);
+  border-color: rgba(22, 163, 74, 0.25);
 }
 
 .LNN_difficulty_medium {
-  color: #fbbf24;
-  background-color: rgba(251, 191, 36, 0.1);
+  color: #b45309;
+  background-color: rgba(217, 119, 6, 0.10);
+  border-color: rgba(217, 119, 6, 0.28);
 }
 
 .LNN_difficulty_hard {
-  color: #f87171;
-  background-color: rgba(248, 113, 113, 0.1);
-}
-
-/* 空状态与加载提示 */
-.LNN_empty {
-  text-align: center;
-  color: #7b8099;
-  padding: 48px 0;
-  font-size: 14px;
-}
-
-/* 页脚 */
-.LNN_footer {
-  padding: 28px 0;
-  text-align: center;
-  border-top: 1px solid #262b45;
-}
-
-.LNN_footer_text {
-  font-size: 13px;
-  color: #7b8099;
+  color: #b91c1c;
+  background-color: rgba(185, 28, 28, 0.09);
+  border-color: rgba(185, 28, 28, 0.25);
 }
 
 /* 响应式 */

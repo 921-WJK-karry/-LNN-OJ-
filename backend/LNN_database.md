@@ -111,3 +111,69 @@ INSERT INTO LNN_submissions (LNN_user_id, LNN_problem_id, LNN_contest_id, LNN_la
 ```
 
 执行结果：users=10、problems=9、contests=8、submissions=10（均已 ≥8 条）。
+
+---
+
+## 2026-11-20 新增科技新闻表（供科技新闻列表页使用）
+
+```sql
+USE LNN_web;
+
+CREATE TABLE IF NOT EXISTS LNN_tech_news (
+  LNN_news_id      INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  LNN_title        VARCHAR(200) NOT NULL COMMENT '新闻标题',
+  LNN_summary      TEXT COMMENT '新闻摘要',
+  LNN_source       VARCHAR(100) DEFAULT NULL COMMENT '新闻来源',
+  LNN_category     VARCHAR(50)  DEFAULT NULL COMMENT '新闻分类',
+  LNN_published_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='科技新闻表';
+
+INSERT INTO LNN_tech_news (LNN_title, LNN_summary, LNN_source, LNN_category, LNN_published_at) VALUES
+('国产 AI 芯片发布新一代训练加速卡', '某国产芯片厂商发布新一代训练加速卡，算力较上代提升 2.3 倍，功耗下降 18%，已进入多家云厂商供应链。', '科技日报', '芯片', '2026-11-18 09:30:00'),
+('开源大模型社区发布千亿参数新版本', '开源大模型社区发布千亿参数新版本，多语言推理能力显著增强，评测成绩接近闭源模型水平。', '开源中国', '人工智能', '2026-11-17 14:00:00'),
+('我国量子计算机实现 1000 量子比特运行', '研究团队宣布量子计算机实现 1000 量子比特稳定运行，在特定组合优化任务上较经典超算快百万倍。', '新华网', '量子计算', '2026-11-16 10:20:00'),
+('固态电池量产线正式投产', '固态电池量产线正式投产，能量密度达 500Wh/kg，首批配套新能源车型将于明年第一季度上市。', '第一财经', '新能源', '2026-11-15 16:45:00'),
+('商业航天公司完成可回收火箭第十次发射', '商业航天公司完成可回收火箭第十次发射与回收，单次发射成本再降 15%，年发射次数位居全球前列。', '澎湃新闻', '航天', '2026-11-14 11:10:00'),
+('6G 试验网完成外场测试 峰值速率创新高', '6G 试验网完成外场测试，峰值下载速率突破 100Gbps，时延低至 0.1 毫秒，预计 2030 年启动商用。', '人民邮电报', '通信', '2026-11-13 09:00:00'),
+('人形机器人进入工厂实训阶段', '多台人形机器人在汽车工厂进入实训阶段，可完成搬运、质检等 12 类工序，预计两年内规模化部署。', '36 氪', '机器人', '2026-11-12 15:30:00'),
+('国内开源数据库社区发布 3.0 版本', '国内开源数据库社区发布 3.0 版本，新增分布式事务与向量检索能力，GitHub 星标数突破 3 万。', 'CSDN', '开源', '2026-11-11 13:20:00');
+```
+
+执行结果：LNN_tech_news=8 条。
+
+## 2026-11-25 知识库（RAG）建表
+
+用途：知识库文件上传、解析、分块与检索问答（RAG）。
+
+```sql
+CREATE TABLE IF NOT EXISTS LNN_kb_files (
+  LNN_file_id INT AUTO_INCREMENT PRIMARY KEY,
+  LNN_filename VARCHAR(255) NOT NULL COMMENT '存储文件名',
+  LNN_original_name VARCHAR(255) NOT NULL COMMENT '原始文件名',
+  LNN_file_type VARCHAR(20) NOT NULL COMMENT '文件类型',
+  LNN_file_size INT NOT NULL DEFAULT 0 COMMENT '文件字节数',
+  LNN_chunk_count INT NOT NULL DEFAULT 0 COMMENT '分块数量',
+  LNN_created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='知识库文件表';
+
+CREATE TABLE IF NOT EXISTS LNN_kb_chunks (
+  LNN_chunk_id INT AUTO_INCREMENT PRIMARY KEY,
+  LNN_file_id INT NOT NULL COMMENT '所属文件ID',
+  LNN_chunk_index INT NOT NULL DEFAULT 0 COMMENT '块序号',
+  LNN_content TEXT NOT NULL COMMENT '文本块内容',
+  KEY LNN_idx_file (LNN_file_id),
+  CONSTRAINT LNN_fk_chunk_file FOREIGN KEY (LNN_file_id)
+    REFERENCES LNN_kb_files(LNN_file_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='知识库文本块表';
+```
+
+测试数据说明：本两表的测试数据由真实业务流程（/api/kb/upload 上传解析）产生，非手工 INSERT。
+项目根目录 knowledge_base/ 下共 4 个知识库文件：
+1. 中华美食街_门店手册.txt（2285B，925 字，4 块）
+2. 中华美食街_常见问题.docx（2023B，641 字，3 块）
+3. 中华美食街_外卖说明.txt（413 字，2 块）
+4. 中华美食街_宴会细则.txt（429 字，2 块）
+合计 LNN_kb_files=4 条、LNN_kb_chunks=11 条，满足每表不少于 8 条测试数据的要求。
+在新机器上重建数据库时：先执行上方建表 SQL，再启动服务后依次调用
+POST http://localhost:8324/api/kb/upload（multipart，file 字段）上传 knowledge_base/ 下 4 个文件，
+即可完整重建等价的业务数据（分块内容与本次完全一致）。

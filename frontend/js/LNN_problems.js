@@ -93,7 +93,7 @@ function LNN_renderList(LNN_list) {
       '<div class="LNN_problem_item">' +
         '<div class="LNN_problem_no">' + LNN_item.LNN_problem_id + '</div>' +
         '<div class="LNN_problem_info">' +
-          '<div class="LNN_problem_title">' + LNN_item.LNN_title + '</div>' +
+          '<div class="LNN_problem_title"><a href="problem_detail.html?id=' + LNN_item.LNN_problem_id + '">' + LNN_item.LNN_title + '</a></div>' +
           '<div class="LNN_problem_meta">' +
             '标签：' + (LNN_item.LNN_tag || '无') +
             ' ｜ 时间限制：' + LNN_item.LNN_time_limit + 'ms' +

@@ -22,4 +22,25 @@ async function LNN_listProblems(LNN_req, LNN_res) {
   }
 }
 
-module.exports = { LNN_listProblems };
+// GET /api/problems/:id —— 题目详情
+async function LNN_getProblem(LNN_req, LNN_res) {
+  try {
+    const LNN_id = Number(LNN_req.params.id);
+    // 校验 ID 为正整数
+    if (!Number.isInteger(LNN_id) || LNN_id <= 0) {
+      return LNN_res.status(400).json({ code: 1, msg: '参数错误：题目 ID 必须为正整数', data: null });
+    }
+
+    const LNN_problem = await LNN_problemModel.LNN_findProblemById(LNN_id);
+    if (!LNN_problem) {
+      return LNN_res.status(404).json({ code: 1, msg: '题目不存在', data: null });
+    }
+
+    LNN_res.json({ code: 0, msg: '查询成功', data: LNN_problem });
+  } catch (LNN_err) {
+    console.error('[LNN_problems controller] 查询题目详情失败：', LNN_err);
+    LNN_res.status(500).json({ code: 1, msg: '查询题目详情失败', data: null });
+  }
+}
+
+module.exports = { LNN_listProblems, LNN_getProblem };

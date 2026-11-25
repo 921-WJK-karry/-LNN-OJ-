@@ -7,3 +7,6 @@ backend/.env
 # 其他
 .screenshots/
 .trae-html-share-packages/
+
+# 用户上传的运行时文件（不入库，知识库源文件在 knowledge_base/）
+backend/LNN_uploads/

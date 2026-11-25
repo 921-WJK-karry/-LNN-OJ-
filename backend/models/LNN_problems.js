@@ -42,4 +42,16 @@ async function LNN_findTags() {
   return LNN_rows.map(LNN_row => LNN_row.LNN_tag);
 }
 
-module.exports = { LNN_findProblems, LNN_findTags };
+// 按题目 ID 查询详情（关联出题人姓名）
+async function LNN_findProblemById(LNN_id) {
+  const [LNN_rows] = await LNN_pool.query(
+    'SELECT p.LNN_problem_id, p.LNN_title, p.LNN_description, p.LNN_difficulty, p.LNN_tag, ' +
+      'p.LNN_time_limit, p.LNN_memory_limit, p.LNN_created_at, u.LNN_real_name AS LNN_creator_name ' +
+      'FROM LNN_problems p LEFT JOIN LNN_users u ON p.LNN_created_by = u.LNN_user_id ' +
+      'WHERE p.LNN_problem_id = ?',
+    [LNN_id]
+  );
+  return LNN_rows[0] || null;
+}
+
+module.exports = { LNN_findProblems, LNN_findTags, LNN_findProblemById };

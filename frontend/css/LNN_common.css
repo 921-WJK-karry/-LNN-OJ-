@@ -1,0 +1,177 @@
+/* 姓名：李南诺 | 学号：24002120324
+   时间：2026-11-20 | 大模型：GLM-5.3-Flash
+   说明：全站共享设计系统（清新浅色玻璃拟态风）
+         设计令牌 + 基础样式 + 导航/标题/页脚，各页面 CSS 仅写页面专属样式 */
+
+/* ========== 设计令牌 ========== */
+:root {
+  --LNN-bg: #f4f7fd;
+  --LNN-card: rgba(255, 255, 255, 0.78);
+  --LNN-card-solid: #ffffff;
+  --LNN-border: rgba(91, 124, 250, 0.16);
+  --LNN-text: #1c2233;
+  --LNN-text-sub: #5a6478;
+  --LNN-text-muted: #8a92a6;
+  --LNN-accent: #5b7cfa;
+  --LNN-accent-2: #2fb8f6;
+  --LNN-accent-soft: rgba(91, 124, 250, 0.10);
+  --LNN-shadow: 0 6px 22px rgba(60, 80, 160, 0.08);
+  --LNN-shadow-hover: 0 10px 26px rgba(91, 124, 250, 0.16);
+  --LNN-radius: 16px;
+  --LNN-radius-sm: 10px;
+}
+
+/* ========== 基础 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.LNN_body {
+  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  color: var(--LNN-text);
+  line-height: 1.65;
+  min-height: 100vh;
+  background:
+    radial-gradient(1000px 500px at 85% -10%, rgba(47, 184, 246, 0.07), transparent 60%),
+    radial-gradient(900px 480px at -10% 25%, rgba(91, 124, 250, 0.06), transparent 60%),
+    linear-gradient(180deg, #fafcff 0%, var(--LNN-bg) 100%);
+  background-attachment: fixed;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+::selection {
+  background: rgba(91, 124, 250, 0.22);
+}
+
+/* 容器 */
+.LNN_container {
+  width: 90%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* 渐变标题通用 */
+.LNN_gradient_text {
+  background: linear-gradient(100deg, var(--LNN-accent), var(--LNN-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ========== 顶部导航（毛玻璃） ========== */
+.LNN_header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(91, 124, 250, 0.12);
+  box-shadow: 0 4px 20px rgba(60, 80, 160, 0.06);
+}
+
+.LNN_header_inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 62px;
+}
+
+.LNN_logo {
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--LNN-text);
+}
+
+.LNN_logo_accent {
+  background: linear-gradient(100deg, var(--LNN-accent), var(--LNN-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: 2px;
+}
+
+.LNN_nav {
+  display: flex;
+  gap: 6px;
+}
+
+.LNN_nav_link {
+  font-size: 14.5px;
+  color: var(--LNN-text-sub);
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.LNN_nav_link:hover {
+  color: var(--LNN-accent);
+  background-color: var(--LNN-accent-soft);
+}
+
+.LNN_nav_link_active {
+  color: var(--LNN-accent);
+  background-color: var(--LNN-accent-soft);
+  font-weight: bold;
+}
+
+/* ========== 页面标题 ========== */
+.LNN_page_head {
+  padding: 44px 0 20px;
+}
+
+.LNN_page_title {
+  font-size: 32px;
+  margin-bottom: 6px;
+  background: linear-gradient(100deg, var(--LNN-accent), var(--LNN-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.LNN_page_desc {
+  font-size: 14.5px;
+  color: var(--LNN-text-sub);
+}
+
+/* ========== 页脚 ========== */
+.LNN_footer {
+  padding: 30px 0;
+  text-align: center;
+  border-top: 1px solid rgba(91, 124, 250, 0.12);
+}
+
+.LNN_footer_text {
+  font-size: 13px;
+  color: var(--LNN-text-muted);
+}
+
+/* ========== 通用空状态 ========== */
+.LNN_empty {
+  text-align: center;
+  color: var(--LNN-text-muted);
+  padding: 48px 0;
+  font-size: 14px;
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 720px) {
+  .LNN_header_inner {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 0;
+    gap: 8px;
+  }
+
+  .LNN_nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

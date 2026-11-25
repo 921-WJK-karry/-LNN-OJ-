@@ -1,28 +1,6 @@
 /* 姓名：李南诺 | 学号：24002120324
    时间：2026-11-20 | 大模型：GLM-5.3-Flash
-   说明：项目首页样式（原生 CSS，类名均以 LNN_ 开头） */
-
-/* 基础重置 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* 全局 */
-.LNN_body {
-  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-  background-color: #0f1220;
-  color: #e8eaf2;
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
+   说明：项目首页样式（canvas 背景 + 信息卡 + 导航面板，清新浅色风） */
 
 /* canvas 背景层 */
 .LNN_bg_canvas {
@@ -36,30 +14,44 @@ a {
 .LNN_main {
   position: relative;
   z-index: 1;
-  max-width: 860px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 64px 24px 40px;
+  padding: 72px 24px 44px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 34px;
 }
 
-/* 项目信息卡（毛玻璃效果） */
+/* 项目信息卡（毛玻璃 + 渐变描边） */
 .LNN_info_card {
-  background-color: rgba(23, 27, 48, 0.72);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(108, 140, 255, 0.35);
-  border-radius: 16px;
-  padding: 36px 32px;
+  position: relative;
+  background-color: var(--LNN-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: var(--LNN-radius);
+  padding: 42px 36px 34px;
   text-align: center;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--LNN-shadow);
+  overflow: hidden;
+}
+
+/* 卡片顶部渐变饰条 */
+.LNN_info_card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--LNN-accent), var(--LNN-accent-2));
 }
 
 .LNN_project_name {
-  font-size: 34px;
+  font-size: 38px;
   letter-spacing: 2px;
-  margin-bottom: 4px;
-  background: linear-gradient(90deg, #6c8cff, #b58cff);
+  margin-bottom: 6px;
+  background: linear-gradient(100deg, var(--LNN-accent), var(--LNN-accent-2));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -67,9 +59,9 @@ a {
 
 .LNN_project_en {
   font-size: 14px;
-  color: #8a90ad;
+  color: var(--LNN-text-muted);
   letter-spacing: 3px;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 }
 
 .LNN_info_list {
@@ -77,8 +69,8 @@ a {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 12px 36px;
-  margin-bottom: 20px;
+  gap: 12px 38px;
+  margin-bottom: 22px;
 }
 
 .LNN_info_item {
@@ -89,52 +81,55 @@ a {
 
 .LNN_info_label {
   font-size: 13px;
-  color: #8a90ad;
+  color: var(--LNN-text-muted);
 }
 
 .LNN_info_value {
   font-size: 16px;
   font-weight: bold;
-  color: #e8eaf2;
+  color: var(--LNN-text);
 }
 
 /* 服务状态徽标 */
 .LNN_status {
   display: inline-block;
-  font-size: 12px;
-  padding: 5px 14px;
+  font-size: 12.5px;
+  padding: 6px 16px;
   border-radius: 999px;
-  border: 1px solid #3a4060;
-  color: #aeb3c9;
+  border: 1px solid rgba(91, 124, 250, 0.25);
+  color: var(--LNN-text-sub);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .LNN_status_online {
-  color: #4ade80;
-  border-color: #2f6b48;
-  background-color: rgba(74, 222, 128, 0.08);
+  color: #15803d;
+  border-color: rgba(22, 163, 74, 0.35);
+  background-color: rgba(22, 163, 74, 0.08);
 }
 
 .LNN_status_offline {
-  color: #f87171;
-  border-color: #7a3a3a;
-  background-color: rgba(248, 113, 113, 0.08);
+  color: #b91c1c;
+  border-color: rgba(185, 28, 28, 0.30);
+  background-color: rgba(185, 28, 28, 0.07);
 }
 
 /* 页面导航面板 */
 .LNN_nav_panel {
-  background-color: rgba(23, 27, 48, 0.72);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(108, 140, 255, 0.25);
-  border-radius: 16px;
-  padding: 28px 28px 32px;
+  background-color: var(--LNN-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: var(--LNN-radius);
+  padding: 30px 28px 34px;
+  box-shadow: var(--LNN-shadow);
 }
 
 .LNN_nav_title {
-  font-size: 18px;
+  font-size: 17px;
   text-align: center;
-  margin-bottom: 20px;
-  color: #aeb3c9;
-  letter-spacing: 4px;
+  margin-bottom: 22px;
+  color: var(--LNN-text-sub);
+  letter-spacing: 5px;
 }
 
 .LNN_nav_grid {
@@ -145,51 +140,57 @@ a {
 
 /* 导航卡片 */
 .LNN_nav_card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 26px 16px;
+  padding: 28px 16px 24px;
   border-radius: 12px;
-  background-color: rgba(15, 18, 32, 0.85);
-  border: 1px solid #262b45;
+  background-color: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(91, 124, 250, 0.14);
   text-align: center;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
 }
 
 .LNN_nav_card:hover {
-  transform: translateY(-5px);
-  border-color: #6c8cff;
-  box-shadow: 0 10px 28px rgba(108, 140, 255, 0.18);
+  transform: translateY(-4px);
+  border-color: rgba(91, 124, 250, 0.45);
+  box-shadow: var(--LNN-shadow-hover);
 }
 
 .LNN_nav_icon {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
-  color: #6c8cff;
+  background: linear-gradient(100deg, var(--LNN-accent), var(--LNN-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .LNN_nav_name {
   font-size: 17px;
   font-weight: bold;
+  color: var(--LNN-text);
 }
 
 .LNN_nav_desc {
-  font-size: 12px;
-  color: #8a90ad;
+  font-size: 12.5px;
+  color: var(--LNN-text-muted);
 }
 
 /* 版权行 */
 .LNN_copyright {
   text-align: center;
   font-size: 13px;
-  color: #7b8099;
+  color: var(--LNN-text-muted);
 }
 
 /* 响应式 */
 @media (max-width: 640px) {
   .LNN_project_name {
-    font-size: 26px;
+    font-size: 28px;
   }
 
   .LNN_nav_grid {

@@ -10,4 +10,7 @@ const LNN_problemController = require('../controllers/LNN_problems');
 // GET /api/problems 题目列表
 LNN_router.get('/', LNN_problemController.LNN_listProblems);
 
+// GET /api/problems/:id 题目详情
+LNN_router.get('/:id', LNN_problemController.LNN_getProblem);
+
 module.exports = LNN_router;
