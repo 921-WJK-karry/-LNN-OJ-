@@ -33,6 +33,9 @@ LNN_router.use('/support', require('./LNN_support'));
 // 知识库路由（RAG）
 LNN_router.use('/kb', require('./LNN_kb'));
 
+// 语音识别路由（ASR）
+LNN_router.use('/asr', require('./LNN_asr'));
+
 // 后续模块路由在此追加，例如：
 // LNN_router.use('/users', require('./LNN_users'));
 
