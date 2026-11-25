@@ -170,7 +170,12 @@ async function LNN_sendQuestion(LNN_text) {
 
     LNN_loadingRow.remove();
     if (LNN_data.code === 0) {
-      LNN_appendBubble('ai', LNN_data.data.reply);
+      let LNN_replyText = LNN_data.data.reply;
+      // 附上来源文件，便于确认答案出自哪个上传文档
+      if (LNN_data.data.sources && LNN_data.data.sources.length > 0) {
+        LNN_replyText += '\n📎 来源：' + LNN_data.data.sources.join('、');
+      }
+      LNN_appendBubble('ai', LNN_replyText);
     } else {
       console.error('知识库问答失败：', LNN_data.msg);
       LNN_appendBubble('error', LNN_data.msg);

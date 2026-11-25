@@ -133,7 +133,7 @@ async function LNN_ask(LNN_req, LNN_res) {
     // 1. 检索知识库
     const LNN_chunks = await LNN_kbModel.LNN_searchChunks(LNN_question, 4);
     const LNN_context = LNN_chunks.length > 0
-      ? LNN_chunks.map((LNN_c, LNN_i) => '【片段' + (LNN_i + 1) + '】\n' + LNN_c.LNN_content).join('\n\n')
+      ? LNN_chunks.map((LNN_c, LNN_i) => '【片段' + (LNN_i + 1) + ' · 来源：' + LNN_c.LNN_file_name + '】\n' + LNN_c.LNN_content).join('\n\n')
       : '（未检索到相关内容）';
 
     // 2. 组装发送给大模型的消息
@@ -168,7 +168,8 @@ async function LNN_ask(LNN_req, LNN_res) {
         reply: LNN_result.LNN_reply,
         model: LNN_result.LNN_model,
         provider: LNN_usedProvider,
-        hit_chunks: LNN_chunks.length
+        hit_chunks: LNN_chunks.length,
+        sources: [...new Set(LNN_chunks.map(LNN_c => LNN_c.LNN_file_name))]
       }
     });
   } catch (LNN_err) {

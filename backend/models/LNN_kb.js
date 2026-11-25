@@ -164,28 +164,55 @@ async function LNN_deleteFile(LNN_fileId) {
   return LNN_rows[0].LNN_filename;
 }
 
-// 关键词检索：把问题切成 2 字滑窗词，按命中次数为文本块打分，取 TopN
+// 高频虚词/疑问词碎片停用表：这些 2 字组合几乎命中所有文档，会污染打分
+const LNN_STOPWORDS = new Set([
+  '什么', '么时', '时候', '可以', '怎么', '怎样', '么做', '多少', '请问', '一下',
+  '这个', '那个', '还是', '没有', '是否', '如何', '你们', '我们', '他们', '自己',
+  '就是', '但是', '如果', '而且', '或者', '以及', '关于', '是不', '有不', '能不',
+  '可不', '我要', '我想', '你是', '我是', '在哪', '里有', '何区', '什么意思'
+]);
+
+// 关键词检索：中文按 2/3/4 字滑窗 + 整段词加权，虚词过滤，按命中次数×词重打分，取 TopN
 async function LNN_searchChunks(LNN_question, LNN_topN) {
   const [LNN_rows] = await LNN_db.query(
-    'SELECT LNN_chunk_id, LNN_file_id, LNN_content FROM LNN_kb_chunks'
+    'SELECT c.LNN_chunk_id, c.LNN_file_id, c.LNN_content, f.LNN_original_name ' +
+    'FROM LNN_kb_chunks c LEFT JOIN LNN_kb_files f ON c.LNN_file_id = f.LNN_file_id'
   );
 
-  // 提取检索词：连续中文/字母/数字串再切 2 字滑窗（保留 3 字以上的完整词）
-  const LNN_terms = new Set();
+  // 构建检索词表：词 -> 权重（同一词保留最大权重）
+  const LNN_terms = new Map();
+  const LNN_addTerm = (LNN_t, LNN_w) => {
+    if (LNN_t.length < 2 || LNN_STOPWORDS.has(LNN_t)) return;
+    const LNN_old = LNN_terms.get(LNN_t);
+    if (LNN_old === undefined || LNN_w > LNN_old) LNN_terms.set(LNN_t, LNN_w);
+  };
+
   const LNN_segments = LNN_question.match(/[\u4e00-\u9fa5A-Za-z0-9]+/g) || [];
   for (const LNN_seg of LNN_segments) {
-    if (LNN_seg.length >= 2 && LNN_seg.length <= 4 && /[A-Za-z0-9]/.test(LNN_seg)) LNN_terms.add(LNN_seg);
-    for (let i = 0; i + 2 <= LNN_seg.length; i++) LNN_terms.add(LNN_seg.slice(i, i + 2));
+    // 完整段作为高权重词（如「营业时间」「北京烤鸭」整段出现时强命中）
+    if (/[A-Za-z0-9]/.test(LNN_seg)) LNN_addTerm(LNN_seg, LNN_seg.length + 2);
+    else LNN_addTerm(LNN_seg, LNN_seg.length);
+    // 多字滑窗：3/4 字词权重高于 2 字碎片
+    for (let LNN_n = 2; LNN_n <= Math.min(4, LNN_seg.length); LNN_n++) {
+      for (let LNN_i = 0; LNN_i + LNN_n <= LNN_seg.length; LNN_i++) {
+        LNN_addTerm(LNN_seg.slice(LNN_i, LNN_i + LNN_n), LNN_n - 1);
+      }
+    }
   }
 
   const LNN_scored = LNN_rows.map(LNN_row => {
     let LNN_score = 0;
-    LNN_terms.forEach(LNN_t => {
+    LNN_terms.forEach((LNN_weight, LNN_t) => {
       let LNN_idx = -1, LNN_count = 0;
-      while ((LNN_idx = LNN_row.LNN_content.indexOf(LNN_t, LNN_idx + 1)) !== -1 && LNN_count < 10) LNN_count++;
-      LNN_score += LNN_count;
+      while ((LNN_idx = LNN_row.LNN_content.indexOf(LNN_t, LNN_idx + 1)) !== -1 && LNN_count < 5) LNN_count++;
+      if (LNN_count > 0) LNN_score += LNN_count * LNN_weight;
     });
-    return { LNN_file_id: LNN_row.LNN_file_id, LNN_content: LNN_row.LNN_content, LNN_score };
+    return {
+      LNN_file_id: LNN_row.LNN_file_id,
+      LNN_content: LNN_row.LNN_content,
+      LNN_file_name: LNN_row.LNN_original_name || '未知文件',
+      LNN_score
+    };
   });
 
   return LNN_scored
