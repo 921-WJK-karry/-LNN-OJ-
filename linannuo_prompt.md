@@ -79,3 +79,5 @@
 2026-11-25 | 全站视觉升级 V2「清新马卡龙风」：重写 css/LNN_common.css 设计令牌（薄荷绿 #22b8a2 × 天空蓝 #58a6ff × 樱花粉 #ff8fab × 薰衣草紫 #a78bfa）+ 波点糖纸背景 + 启用各页 HTML 中一直空置的 LNN_bg_glow 漂浮光球（模糊光斑漂移动画）；新增全站通用装饰：header 五色流动彩虹顶条、卡片贴纸虚线内框、双色糖珠圆点、hover 轻抬倾斜、图标漂浮/摇摆动画、按钮果冻按压、渐变文字流动、可爱滚动条；批量替换 12 个页面 CSS 中 61 处旧蓝紫 rgba 为新配色（主色 91,124,250→34,184,162；辅色 47,184,246→88,166,255；阴影 60,80,160→34,140,120）；首页 canvas 粒子改薄荷/樱花双色；新增 LNN_pop_in/LNN_wiggle/LNN_float/LNN_jelly 等公共动画供页面复用；支持 prefers-reduced-motion 降级。浏览器验证：problems/contests/tech_news 三页贴纸卡片+糖珠+彩虹条全部生效、控制台零报错 | 大模型名称：GLM-5.3-Flash
 
 2026-11-25 | 新建 AI 功能测试结果展示页：frontend/test_results.html + css/LNN_test_results.css，按四大功能分区展示 7 张实测截图（客服聊天×2 / 图像识别×2 / 知识库问答×2 / 语音识别×1），截图复制自 d:\程序设计比赛题库\ 并重命名为 ASCII 存入 frontend/images/screenshots/；页面沿用清新马卡龙风（贴纸截图卡 + 错峰入场 + hover 抬升缩放），每图配测试说明图注，底部测试结论总结卡；index.html 追加「AI 测试结果」导航卡。实测页面与图片资源均 200 | 大模型名称：GLM-5.3-Flash
+
+2026-11-25 | GitHub Pages 首页问题修复：Pages 从仓库根目录找 index.html，本项目首页在 frontend/ 子目录，导致根地址渲染的是 readme.md 而非首页。修复：根目录新增 index.html 跳转页（meta refresh 自动跳 frontend/index.html，含手动链接兜底与本地后端提示），已提交 97b5d9b 并推送。线上首页地址 https://921-wjk-karry.github.io/-LNN-OJ-/ | 大模型名称：GLM-5.3-Flash
